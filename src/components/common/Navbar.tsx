@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
         <MobileSidebar />
         <div className="flex items-center gap-2 font-bold text-blue-600 text-lg">
           <Heart className="w-5 h-5 hidden md:block" />
-          <span>HealthCore</span>
+          <span>HealthSync</span>
         </div>
       </div>
 

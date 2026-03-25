@@ -78,7 +78,7 @@ const MobileSidebar: React.FC = () => {
 
             <div className="p-4 border-t border-slate-100">
               <div className="bg-blue-50 rounded-xl p-4">
-                <p className="text-xs font-semibold text-blue-700 mb-1">HealthCore v1.0</p>
+                <p className="text-xs font-semibold text-blue-700 mb-1">HealthSync</p>
                 <p className="text-xs text-blue-500">Healthcare Management</p>
               </div>
             </div>
