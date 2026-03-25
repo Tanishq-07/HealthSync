@@ -9,13 +9,14 @@ const links = [
 ];
 
 const Sidebar: React.FC = () => (
-  <aside className="w-56 pt-4">
+  <aside className="w-56 h-full flex flex-col pt-4">
     <div className="px-3 mb-4">
       <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest px-4">
         Main Menu
       </p>
     </div>
-    <nav className="px-3 space-y-1">
+
+    <nav className="px-3 space-y-1 flex-1">
       {links.map(({ to, icon: Icon, label }) => (
         <NavLink
           key={to}
@@ -34,7 +35,7 @@ const Sidebar: React.FC = () => (
       ))}
     </nav>
 
-    <div className="absolute bottom-6 left-0 w-56 px-6">
+    <div className="p-4">
       <div className="bg-blue-50 rounded-xl p-4">
         <p className="text-xs font-semibold text-blue-700 mb-1">HealthCore v1.0</p>
         <p className="text-xs text-blue-500">Healthcare Management</p>
