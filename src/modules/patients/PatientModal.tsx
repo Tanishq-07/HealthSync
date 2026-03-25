@@ -72,18 +72,6 @@ const PatientModal: React.FC<Props> = ({ patient, onClose }) => {
             <InfoRow icon={<Calendar className="w-4 h-4" />} label="Admitted On" value={patient.admittedOn} />
           </div>
         </div>
-
-        <div className="px-6 pb-6 flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm hover:bg-slate-50 transition-colors"
-          >
-            Close
-          </button>
-          <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors">
-            Edit Patient
-          </button>
-        </div>
       </div>
     </div>
   );
