@@ -1,62 +1,41 @@
-# React + TypeScript + Vite
+# HealthSync
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A B2B Healthcare SaaS dashboard for managing patients, tracking analytics, and monitoring critical cases in real time.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 18 + TypeScript** — component architecture with full type safety
+- **Redux Toolkit** — global state for auth, patients, and notifications
+- **Firebase Authentication** — email/password login with session persistence
+- **React Router v6** — protected routes with session-aware redirects
+- **Tailwind CSS** — responsive utility-first styling
+- **Recharts** — analytics charts derived live from patient state
+- **Service Worker + Notifications API** — OS-level push notifications
+- **Vite** — build tooling
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Login with Firebase auth and persistent session
+- Patient management with grid/list view, search, filter, sort, and pagination
+- Update patient status from the detail modal — dashboard and analytics sync instantly
+- In-app notification panel with unread badge; OS notifications fire on critical status changes
+- Analytics charts (condition distribution, status breakdown, admissions trend) all derived from live Redux state
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-
-      tseslint.configs.recommendedTypeChecked,
-      tseslint.configs.strictTypeChecked,
-      tseslint.configs.stylisticTypeChecked,
-
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Add a `.env` file with your Firebase config keys (`VITE_FIREBASE_API_KEY`, etc.).
 
-```js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Test Credentials
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      reactX.configs['recommended-typescript'],
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-])
 ```
+Email:    TestId123@gmail.com
+Password: Test123
+```
+
+## Live Demo
+https://health-sync-kybd-git-main-tanishq-07s-projects.vercel.app/
