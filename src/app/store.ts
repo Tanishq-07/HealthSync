@@ -3,6 +3,7 @@ import authReducer from '../modules/auth/authSlice';
 import dashboardReducer from '../modules/dashboard/dashboardSlice';
 import analyticsReducer from '../modules/analytics/analyticsSlice';
 import patientsReducer from '../modules/patients/patientsSlice';
+import notificationsReducer from '../modules/notifications/notificationsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     analytics: analyticsReducer,
     patients: patientsReducer,
+    notifications: notificationsReducer, 
   },
 });
 

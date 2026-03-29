@@ -1,11 +1,16 @@
 import React from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { Users, AlertTriangle, TrendingUp, Calendar, UserCheck, Activity } from 'lucide-react';
-import { mockPatients } from '../../utils/mockData';
 import Card from '../../components/common/Card';
 import Badge, { getStatusVariant } from '../../components/common/Badge';
 
-const StatCard: React.FC<{ label: string; value: number; icon: React.ReactNode; color: string; sub?: string }> = ({ label, value, icon, color, sub }) => (
+const StatCard: React.FC<{
+  label: string;
+  value: number;
+  icon: React.ReactNode;
+  color: string;
+  sub?: string;
+}> = ({ label, value, icon, color, sub }) => (
   <Card className="flex items-center gap-4">
     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}>{icon}</div>
     <div>
@@ -17,24 +22,71 @@ const StatCard: React.FC<{ label: string; value: number; icon: React.ReactNode; 
 );
 
 const DashboardPage: React.FC = () => {
-  const { stats } = useAppSelector(s => s.dashboard);
   const { user } = useAppSelector(s => s.auth);
-  const recentPatients = mockPatients.slice(0, 5);
+  const patients = useAppSelector(s => s.patients.list);
+
+  const stats = React.useMemo(() => ({
+    totalPatients:      patients.length,
+    activeCases:        patients.filter(p => p.status === 'Active').length,
+    criticalCases:      patients.filter(p => p.status === 'Critical').length,
+    recovered:          patients.filter(p => p.status === 'Discharged').length,
+    stableCases:        patients.filter(p => p.status === 'Stable').length,
+    todayAppointments:  8,
+    availableDoctors:   5,
+  }), [patients]);
+
+  const recentPatients = patients.slice(0, 5);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Welcome back, {user?.displayName} 👋</h1>
-        <p className="text-slate-500 text-sm mt-1">Here's what's happening at your facility today.</p>
+        <h1 className="text-2xl font-bold text-slate-800">
+          Welcome back, {user?.displayName} 👋
+        </h1>
+        <p className="text-slate-500 text-sm mt-1">
+          Here's what's happening at your facility today.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-        <StatCard label="Total Patients" value={stats.totalPatients} icon={<Users className="w-6 h-6 text-blue-600" />} color="bg-blue-50" sub="↑ 8% this month" />
-        <StatCard label="Active Cases" value={stats.activeCases} icon={<Activity className="w-6 h-6 text-indigo-600" />} color="bg-indigo-50" />
-        <StatCard label="Critical Cases" value={stats.criticalCases} icon={<AlertTriangle className="w-6 h-6 text-red-600" />} color="bg-red-50" sub="Needs attention" />
-        <StatCard label="Recovered" value={stats.recovered} icon={<TrendingUp className="w-6 h-6 text-emerald-600" />} color="bg-emerald-50" sub="↑ 12% this month" />
-        <StatCard label="Today's Appointments" value={stats.todayAppointments} icon={<Calendar className="w-6 h-6 text-amber-600" />} color="bg-amber-50" />
-        <StatCard label="Available Doctors" value={stats.availableDoctors} icon={<UserCheck className="w-6 h-6 text-purple-600" />} color="bg-purple-50" />
+        <StatCard
+          label="Total Patients"
+          value={stats.totalPatients}
+          icon={<Users className="w-6 h-6 text-blue-600" />}
+          color="bg-blue-50"
+          sub="↑ 8% this month"
+        />
+        <StatCard
+          label="Active Cases"
+          value={stats.activeCases}
+          icon={<Activity className="w-6 h-6 text-indigo-600" />}
+          color="bg-indigo-50"
+        />
+        <StatCard
+          label="Critical Cases"
+          value={stats.criticalCases}
+          icon={<AlertTriangle className="w-6 h-6 text-red-600" />}
+          color="bg-red-50"
+          sub={stats.criticalCases > 0 ? 'Needs attention' : 'All clear'}
+        />
+        <StatCard
+          label="Stable Cases"
+          value={stats.stableCases}
+          icon={<TrendingUp className="w-6 h-6 text-emerald-600" />}
+          color="bg-emerald-50"
+        />
+        <StatCard
+          label="Today's Appointments"
+          value={stats.todayAppointments}
+          icon={<Calendar className="w-6 h-6 text-amber-600" />}
+          color="bg-amber-50"
+        />
+        <StatCard
+          label="Available Doctors"
+          value={stats.availableDoctors}
+          icon={<UserCheck className="w-6 h-6 text-purple-600" />}
+          color="bg-purple-50"
+        />
       </div>
 
       <Card padding="sm">
@@ -57,7 +109,9 @@ const DashboardPage: React.FC = () => {
                 <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-semibold text-xs">{p.avatar}</div>
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-semibold text-xs">
+                        {p.avatar}
+                      </div>
                       <div>
                         <p className="font-medium text-slate-800">{p.name}</p>
                         <p className="text-xs text-slate-400">{p.id}</p>

@@ -10,7 +10,13 @@ import { Patient } from "../../types";
 
 const STATUSES = ["All", "Active", "Stable", "Critical", "Discharged"];
 
-type SortKey = "name" | "age" | "condition" | "status" | "doctor" | "admittedOn";
+type SortKey =
+  | "name"
+  | "age"
+  | "condition"
+  | "status"
+  | "doctor"
+  | "admittedOn";
 type SortDir = "asc" | "desc";
 
 const COLUMNS: { key: SortKey; label: string }[] = [
@@ -32,11 +38,16 @@ const PatientsPage: React.FC = () => {
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [page, setPage] = useState(1);
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(
+    null
+  );
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    else { setSortKey(key); setSortDir("asc"); }
+    else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
     setPage(1);
   };
 
@@ -69,17 +80,22 @@ const PatientsPage: React.FC = () => {
   const SortIcon = ({ col }: { col: SortKey }) => {
     if (sortKey !== col)
       return <ChevronsUpDown className="w-3.5 h-3.5 text-slate-300" />;
-    return sortDir === "asc"
-      ? <ChevronUp className="w-3.5 h-3.5 text-blue-600" />
-      : <ChevronDown className="w-3.5 h-3.5 text-blue-600" />;
+    return sortDir === "asc" ? (
+      <ChevronUp className="w-3.5 h-3.5 text-blue-600" />
+    ) : (
+      <ChevronDown className="w-3.5 h-3.5 text-blue-600" />
+    );
   };
 
   return (
     <div className="space-y-4 p-1">
-
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Patient Management</h1>
-        <p className="text-slate-500 text-sm mt-1">{filtered.length} patients found</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">
+          Patient Management
+        </h1>
+        <p className="text-slate-500 text-sm mt-1">
+          {filtered.length} patients found
+        </p>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -90,13 +106,19 @@ const PatientsPage: React.FC = () => {
               type="text"
               placeholder="Search by name, condition, ID..."
               value={search}
-              onChange={(e) => { dispatch(setSearch(e.target.value)); setPage(1); }}
+              onChange={(e) => {
+                dispatch(setSearch(e.target.value));
+                setPage(1);
+              }}
               className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
             />
           </div>
           <ViewToggle
             viewMode={viewMode}
-            onChange={(mode) => { dispatch(setViewMode(mode)); setPage(1); }}
+            onChange={(mode) => {
+              dispatch(setViewMode(mode));
+              setPage(1);
+            }}
           />
         </div>
 
@@ -104,7 +126,10 @@ const PatientsPage: React.FC = () => {
           {STATUSES.map((s) => (
             <button
               key={s}
-              onClick={() => { dispatch(setFilterStatus(s)); setPage(1); }}
+              onClick={() => {
+                dispatch(setFilterStatus(s));
+                setPage(1);
+              }}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
                 filterStatus === s
                   ? "bg-blue-600 text-white"
@@ -124,7 +149,7 @@ const PatientsPage: React.FC = () => {
               key={p.id}
               patient={p}
               index={i}
-              onClick={() => setSelectedPatient(p)}
+              onClick={() => setSelectedPatientId(p.id)}
             />
           ))}
         </div>
@@ -165,7 +190,7 @@ const PatientsPage: React.FC = () => {
                     key={p.id}
                     patient={p}
                     index={i}
-                    onClick={() => setSelectedPatient(p)}
+                    onClick={() => setSelectedPatientId(p.id)}
                   />
                 ))}
               </tbody>
@@ -177,7 +202,9 @@ const PatientsPage: React.FC = () => {
       {filtered.length === 0 && (
         <div className="text-center py-16 text-slate-400 bg-white rounded-xl border border-slate-100">
           <p className="text-4xl mb-3">🔍</p>
-          <p className="text-lg font-medium text-slate-600">No patients found</p>
+          <p className="text-lg font-medium text-slate-600">
+            No patients found
+          </p>
           <p className="text-sm mt-1">Try adjusting your search or filter.</p>
         </div>
       )}
@@ -185,7 +212,8 @@ const PatientsPage: React.FC = () => {
       {filtered.length > PAGE_SIZE && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-slate-500 order-2 sm:order-1">
-            Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
+            Showing {(page - 1) * PAGE_SIZE + 1}–
+            {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
           </p>
           <div className="flex items-center gap-1 order-1 sm:order-2 flex-wrap justify-center">
             <button
@@ -220,8 +248,8 @@ const PatientsPage: React.FC = () => {
       )}
 
       <PatientModal
-        patient={selectedPatient}
-        onClose={() => setSelectedPatient(null)}
+        patientId={selectedPatientId}
+        onClose={() => setSelectedPatientId(null)}
       />
     </div>
   );
